@@ -1,0 +1,28 @@
+{
+  "name": "Replate2-Backend-Node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Replate2/Backend-Node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Replate2/Backend-Node/issues"
+  },
+  "homepage": "https://github.com/Replate2/Backend-Node#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
