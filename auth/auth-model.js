@@ -1,14 +1,14 @@
 const db = require("../database/connection");
 
 module.exports = {
-  find,
   findBy,
+  add,
 };
-
-function find() {
-  return db("users");
-}
 
 function findBy(prop) {
   return db("users").where(prop).first();
+}
+
+function add(user) {
+  return db("users").insert(user);
 }

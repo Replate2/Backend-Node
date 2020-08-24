@@ -1,10 +1,18 @@
 // Update with your config settings.
+const pgConnection = {
+  prod:
+    process.env.DATABASE_URL ||
+    "postgresql://postgresql@localhost/replate-prod",
+  staging:
+    process.env.DATABASE_URL ||
+    "postgresql://postgresql@localhost/replate-staging",
+};
 
 module.exports = {
   development: {
     client: "sqlite3",
     connection: {
-      filename: "./database/replate.db3",
+      filename: "./database/replate-devlopment.db3",
     },
     useNullAsDefault: true,
     migrations: {
@@ -15,34 +23,30 @@ module.exports = {
   },
 
   staging: {
-    client: "postgresql",
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
+    client: "pg",
+    connection: pgConnection.staging,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./database/migrations",
+      tableName: "dbmigrations",
     },
+    seeds: { directory: "./database/seeds" },
   },
 
   production: {
-    client: "postgresql",
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
+    client: "pg",
+    connection: pgConnection.prod,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./database/migrations",
+      tableName: "dbmigrations",
     },
+    seeds: { directory: "./database/seeds" },
   },
 };
