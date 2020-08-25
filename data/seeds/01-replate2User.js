@@ -14,12 +14,12 @@ exports.seed = function (knex) {
     .insert(users)
     .then(() => console.log("\n== Seed data for users table added. ==\n"));
 
-  return knex('volunteers')
-      return knex('volunteers').insert([
-        {id: 1, name: 'Mathew'},
-        {id: 2, name: 'John'},
-        {id: 3, name: 'Dustin'}
-      ]);
+  // return knex('volunteers')
+  //     return knex('volunteers').insert([
+  //       {id: 1, name: 'Mathew'},
+  //       {id: 2, name: 'John'},
+  //       {id: 3, name: 'Dustin'}
+  //     ]);
 };
 
 // exports.seed = function(knex) {

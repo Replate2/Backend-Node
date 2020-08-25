@@ -11,14 +11,15 @@ module.exports = {
 
 
 function find() {
-    return db('users').select('id', username).orderBy(id);
+    return db('users').select('id', 'name', 'username').orderBy('id');
 };
 
-function findBy() {
+function findBy(filter) {
     return db('users as u')
-    .join( 'roles as r', 'r.id', 'u.role')
+    .leftJoin( 'volunteers as v', 'u.id', 'v.user_id')
+    .leftJoin('donors as d', 'u.id', 'd.user_id',)
     .where(filter)
-    .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'r.name as role')
+    .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'v.id as volunteer', 'd.id as donor')
     .orderBy('u.id')
 };
 

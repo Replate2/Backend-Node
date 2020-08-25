@@ -10,10 +10,10 @@ exports.up = function (knex) {
     tbl.text('address', 128).unsigned();
   }).createTable("volunteers", function (tbl) {
     tbl.increments();
-    tbl.integer("users").unsigned().references("id").inTable('users').onDelete("RESTRICT").onUpdate("CASCADE");
+    tbl.integer("user_id").unsigned().references("id").inTable('users').onDelete("RESTRICT").onUpdate("CASCADE");
   }).createTable("donors", function (tbl) {
     tbl.increments();
-    tbl.integer("users").unsigned().references("id").inTable('users').onDelete("RESTRICT").onUpdate("CASCADE");
+    tbl.integer("user_id").unsigned().references("id").inTable('users').onDelete("RESTRICT").onUpdate("CASCADE");
   }).createTable("foodItems", function (tbl) {
     tbl.increments();
     tbl.string("name", 128).notNullable().unique();

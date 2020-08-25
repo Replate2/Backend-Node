@@ -7,6 +7,7 @@ module.exports = {
     connection: {
       filename: "./data/replate2.db3",
     },
+    useNullAsDefault: true, // needed for sqlite
     pool: {
       afterCreate: (conn, done) => {
         conn.run("PRAGMA foreign_keys = ON", done);

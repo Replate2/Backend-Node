@@ -57,7 +57,8 @@ router.post("/login", function (req, res) {
       var _ref2 = _slicedToArray(_ref, 1),
           user = _ref2[0];
 
-      // compare the password the hash stored in the database
+      console.log(user); // compare the password the hash stored in the database
+
       if (user && bcryptjs.compareSync(password, user.password)) {
         var token = generateToken(user);
         res.status(200).json({

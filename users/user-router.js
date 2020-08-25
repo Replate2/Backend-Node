@@ -41,14 +41,14 @@ router.post('/:id', (req, res) => {
       });
 });
 
-router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
+router.put('/:id', checkUser(['donor', 'volunteer']), (req, res) => {
     res.status(200).json({msg:'Welcome donor or volunteer'});
 });
 
-function checkRole(roles) {
+function checkUser(users) {
     return function (req, res, next) {
-        roles.forEach(role => {
-            if(role.decodedToken === role)
+        Users.forEach(user => {
+            if(user.decodedToken === user)
             next();
         })
     }
@@ -78,3 +78,5 @@ router.delete('/:id', authenticate, (req, res) => {
         res.status(500).json({ message: 'Failed to delete user' });
       });
 });
+
+module.exports = router;

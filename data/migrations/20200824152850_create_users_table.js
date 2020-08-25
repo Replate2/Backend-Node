@@ -15,7 +15,7 @@ exports.up = function(knex) {
     .createTable("volunteers", tbl => {
         tbl.increments();
         
-        tbl.integer("users")
+        tbl.integer("user_id")
             .unsigned()
             .references("id")
             .inTable('users')
@@ -26,7 +26,7 @@ exports.up = function(knex) {
     .createTable("donors", tbl => {
         tbl.increments();
 
-        tbl.integer("users")
+        tbl.integer("user_id")
             .unsigned()
             .references("id")
             .inTable('users')

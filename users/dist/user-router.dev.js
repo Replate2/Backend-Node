@@ -53,16 +53,16 @@ router.post('/:id', function (req, res) {
     });
   });
 });
-router.put('/:id', checkRole(['donor', 'volunteer']), function (req, res) {
+router.put('/:id', checkUser(['donor', 'volunteer']), function (req, res) {
   res.status(200).json({
     msg: 'Welcome donor or volunteer'
   });
 });
 
-function checkRole(roles) {
+function checkUser(users) {
   return function (req, res, next) {
-    roles.forEach(function (role) {
-      if (role.decodedToken === role) next();
+    Users.forEach(function (user) {
+      if (user.decodedToken === user) next();
     });
   };
 }
@@ -97,3 +97,4 @@ router["delete"]('/:id', authenticate, function (req, res) {
     });
   });
 });
+module.exports = router;
