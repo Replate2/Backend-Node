@@ -1,7 +1,7 @@
 exports.seed = async function (knex) {
-  await knex("leftovers").truncate();
-  await knex("locations").truncate();
-  await knex("users").truncate();
+  // await knex("leftovers").truncate();
+  // await knex("locations").truncate();
+  // await knex("users").truncate();
   // Deletes ALL existing entries
   return knex("users")
     .del()
