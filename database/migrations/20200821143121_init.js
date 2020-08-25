@@ -3,6 +3,7 @@ exports.up = function (knex) {
     tbl.increments("id");
     tbl.string("username", 128).notNullable().unique().index();
     tbl.string("password", 255).notNullable();
+    tbl.boolean("volunteer").defaultTo(false);
   });
 };
 
