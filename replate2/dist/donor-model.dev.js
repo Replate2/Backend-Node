@@ -13,54 +13,64 @@ var db = require("../data/connection.js");
 var Foods = require('../data/connection.js');
 
 module.exports = {
-  add: add,
   find: find,
-  findBy: findBy,
   findById: findById,
   findFooditems: findFooditems,
+  add: add,
   update: update,
   remove: remove
 };
 
 function find() {
-  return db('users').select('id', username).orderBy(id);
-}
-
-;
-
-function findBy() {
-  return db('users as u').join('roles as r', 'r.id', 'u.role').where(filter).select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'r.name as role').orderBy('u.id');
+  return db('donors').select('id', 'name', 'username').orderBy('id');
 }
 
 ;
 
 function findById(id) {
-  return db('users').where({
+  return db('donors').where({
     id: id
   }).first();
 }
 
 ;
 
-function findFooditems() {
-  return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id').join('foodItems as f', 'f.id').join('donors as d', 'd.id').where(filter).select('f.name').orderBy('f.name');
+function findFooditems(id) {
+  return db('volunteer_donor_foodItem').where({
+    donor_id: id
+  }).then(function (donorFoods) {
+    var promises = [];
+    donorFoods.map(function (donorFoods) {
+      promises.push(Foods.where({
+        id: donorFoods.foodItem.id
+      }));
+    });
+    return Promise.all(promises);
+  });
 }
 
-;
+; // function findFooditems() {
+//     return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id')
+//         .join('foodItems as f', 'f.id')
+//         .join('donors as d', 'd.id')
+//         .where(filter)
+//         .select('f.name')
+//         .orderBy('f.name')
+// };
 
-function add(user) {
-  return db('users').insert(user).then(function (_ref) {
+function add(donors) {
+  return db('donors').insert(donors).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 1),
-        user = _ref2[0];
+        donor = _ref2[0];
 
-    return findById(user);
+    return findById(donor);
   });
 }
 
 ;
 
 function update(id, changes) {
-  return db('users').where({
+  return db('donors').where({
     id: id
   }).update(changes).then(function () {
     return findById(id);
@@ -70,7 +80,7 @@ function update(id, changes) {
 ;
 
 function remove(id) {
-  return db('users').where({
+  return db('donors').where({
     id: id
   })["delete"]();
 }

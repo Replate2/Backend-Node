@@ -1,9 +1,9 @@
 const router = require("express").Router();
-
-const Donors = require("./donor-model.js");
+const Foods = require('../data/connection.js');
+const Users = require("../users/user-model.js");
 
 router.get("/", (req, res) => {
-    Donors.find()
+    Users.findDonors()
         .then(donors => {
             if(donors) {
                 res.status(200).json(donors);
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    Donors.findById(req.params.id)
+    Users.findById(req.params.id)
         .then(donor => {
             if(donor) {
                 res.status(200).json(donor);
@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/foodItems', (req, res) => {
-    Donors.findFooditems()
+    Users.findFooditems(req.params.id)
     .then(foods => {
         if(foods) {
             res.status(200).json(foods);
@@ -54,18 +54,19 @@ router.post('/:id', (req, res) => {
       });
 });
 
-// router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
-//     res.status(200).json({msg:'Welcome donor or volunteer'});
-// });
-
-// function checkRole(roles) {
-//     return function (req, res, next) {
-//         roles.forEach(role => {
-//             if(role.decodedToken === role)
-//             next();
-//         })
-//     }
-// };
+router.post('/:id/foodItems', (req, res) => {
+    Donors.findById(req.params.id)
+        .then(donor => {
+            if(donor) {
+                Foods.insert(req.body);
+            } else {
+                res.status(400).json({msg: 'Please provide donor information'})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({err: 'Failed to add foodItems' });
+        });
+});
 
 router.put('/:id', (req, res) => {
     Donors.findById(req.params.id)
@@ -91,3 +92,5 @@ router.delete('/:id', (req, res) => {
         res.status(500).json({ message: 'Failed to delete donor' });
       });
 });
+
+module.exports = router;

@@ -84,7 +84,7 @@ router.post("/login", function (req, res) {
 
 function generateToken(user) {
   var payload = {
-    subject: user.id,
+    id: user.id,
     username: user.username,
     role: user.role
   };

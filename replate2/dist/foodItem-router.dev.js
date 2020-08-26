@@ -10,90 +10,91 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var router = require("express").Router();
 
-var Users = require("./user-model.js");
+var Fooditems = require("./fooditem-model.js");
 
-var authenticate = require('./checkpoint-mw.js');
-
-router.get("/", authenticate, function (req, res) {
-  Users.find().then(function (users) {
-    if (users) {
-      res.status(200).json(users);
+router.get("/", function (req, res) {
+  Fooditems.find().then(function (foodItems) {
+    if (foodItems) {
+      res.status(200).json(foodItems);
     } else {
       res.status(400).json({
-        msg: 'bad requests for users'
+        msg: 'bad requests for foodItems'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to get users'
+      err: 'Failed to get foodItems'
     });
   });
 });
-router.get('/:id', authenticate, function (req, res) {
-  Users.findById(req.params.id).then(function (user) {
-    if (user) {
-      res.status(200).json(user);
+router.get('/:id', function (req, res) {
+  Fooditems.findById(req.params.id).then(function (foodItem) {
+    if (foodItem) {
+      res.status(200).json(foodItem);
     } else {
       res.status(404).json({
-        msg: 'Could not find user with given id.'
+        msg: 'Could not find foodItem with given id.'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to get user'
+      err: 'Failed to get foodItem'
     });
   });
-});
-router.post('/:id', function (req, res) {
-  Users.add(req.body).then(function (newUser) {
-    res.status(201).json(newUser);
-  })["catch"](function (err) {
-    res.status(500).json({
-      message: 'Failed to create new user'
-    });
-  });
-});
-router.put('/:id', checkRole(['donor', 'volunteer']), function (req, res) {
-  res.status(200).json({
-    msg: 'Welcome donor or volunteer'
-  });
-});
+}); // router.get('/:id/donors', (req, res) => {
+//     Fooditems.findDonors(req.params.id)
+//     .then(donors => {
+//         if(donors) {
+//             res.status(200).json(donors);
+//         } else {
+//             res.status(404).json({msg: 'Could not find donors'})
+//         }  
+//     })
+//     .catch(err => {
+//         res.status(500).json({err: 'Failed to get donors' });
+//     });
+// });
+// router.get('/:id/volunteers', (req, res) => {
+//     Fooditems.findVolunteers(req.params.id)
+//     .then(volunteers => {
+//         if(volunteers) {
+//             res.status(200).json(volunteers);
+//         } else {
+//             res.status(404).json({msg: 'Could not find volunteers'})
+//         }  
+//     })
+//     .catch(err => {
+//         res.status(500).json({err: 'Failed to get volunteers' });
+//     });
+// });
 
-function checkRole(roles) {
-  return function (req, res, next) {
-    roles.forEach(function (role) {
-      if (role.decodedToken === role) next();
-    });
-  };
-}
-
-;
-router.put('/:id', authenticate, function (req, res) {
-  Users.findById(req.params.id).update(req.body).then(function (_ref) {
+router.put('/:id', function (req, res) {
+  Fooditems.findById(req.params.id).update(req.body).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 1),
-        updatedUser = _ref2[0];
+        updateFooditem = _ref2[0];
 
-    if (updatedUser) {
-      res.status(200).json(updatedUser);
+    if (updateFooditem) {
+      res.status(200).json(updateFooditem);
     } else {
       res.status(400).json({
-        msg: 'Please provide username & password for user with given id.'
+        msg: 'Please provide foodItem info with given id.'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to edit user'
+      err: 'Failed to edit foodItem'
     });
   });
 });
-router["delete"]('/:id', authenticate, function (req, res) {
-  Users.remove(req.params.id).then(function () {
+router["delete"]('/:id', function (req, res) {
+  Fooditems.remove(req.params.id).then(function () {
     res.status(201).json({
-      msg: 'user is deleted'
+      msg: 'foodItem is deleted'
     });
   })["catch"](function (err) {
     res.status(500).json({
-      message: 'Failed to delete user'
+      message: 'Failed to delete foodItem'
     });
   });
 });
+module.exports = router;

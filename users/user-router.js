@@ -1,7 +1,8 @@
 const router = require("express").Router();
 
 const Users = require("./user-model.js");
-const authenticate = require('../auth/checkpoint-mw.js');
+// const Foods = require('../replate2/fooditem-model.js');
+const {authenticate, checkUserIdMatch} = require('../auth/checkpoint-mw.js');
 
 router.get("/", authenticate, (req, res) => {
     Users.find()
@@ -17,7 +18,7 @@ router.get("/", authenticate, (req, res) => {
         });
 });
 
-router.get('/:id', authenticate, (req, res) => {
+router.get('/:id', authenticate, checkUserIdMatch, (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
             if(user) {
@@ -31,7 +32,7 @@ router.get('/:id', authenticate, (req, res) => {
         });
 });
 
-router.post('/:id', (req, res) => {
+router.post('/:id', authenticate, checkUserIdMatch, (req, res) => {
     Users.add(req.body)
     .then(newUser => {
         res.status(201).json(newUser);
@@ -41,23 +42,46 @@ router.post('/:id', (req, res) => {
       });
 });
 
-router.put('/:id', checkUser(['donor', 'volunteer']), (req, res) => {
-    res.status(200).json({msg:'Welcome donor or volunteer'});
+router.post('/:id/foodItems', (req, res) => {
+    Users.findById(req.params.id)
+        .then(user => {
+            console.log(user);
+            if(user) {
+                Users.addFood(req.body, req.params.id)
+                .then(food => {
+                    console.log(food);
+                    res.status(201).json(food);
+                })
+                .catch(err => {
+                    res.status(500).json({err: 'Failed to add foodItems' });
+                });
+            } else {
+                res.status(400).json({msg: 'Please provide user information'})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({err: 'Failed to add foodItems' });
+        });
 });
 
-function checkUser(users) {
-    return function (req, res, next) {
-        Users.forEach(user => {
-            if(user.decodedToken === user)
-            next();
-        })
-    }
-};
+// router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
+//     res.status(200).json({msg:'Welcome donor or volunteer'});
+// });
 
-router.put('/:id', authenticate, (req, res) => {
-    Users.findById(req.params.id)
-        .update(req.body)
-        .then(([updatedUser]) => {
+// function checkRole(users) {
+//     return function (req, res, next) {
+//         Users.forEach(user => {
+//             if(user.decodedToken === user)
+//             next();
+//         })
+//     }
+// };
+
+router.put('/:id', authenticate, checkUserIdMatch, (req, res) => {
+    console.log(req.params.id, req.body);
+    Users.update(req.params.id, req.body)
+        .then((updatedUser) => {
+            console.log(updatedUser)
             if(updatedUser) {
                 res.status(200).json(updatedUser);
             } else {

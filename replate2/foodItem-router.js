@@ -1,80 +1,85 @@
 const router = require("express").Router();
+const Fooditems = require("./fooditem-model.js");
 
-const Users = require("./user-model.js");
-const authenticate = require('./checkpoint-mw.js');
-
-router.get("/", authenticate, (req, res) => {
-    Users.find()
-        .then(users => {
-            if(users) {
-                res.status(200).json(users);
+router.get("/", (req, res) => {
+    Fooditems.find()
+        .then(foodItems => {
+            if(foodItems) {
+                res.status(200).json(foodItems);
             } else {
-                res.status(400).json({msg: 'bad requests for users'});
+                res.status(400).json({msg: 'bad requests for foodItems'});
             }
         })
         .catch(err => {
-            res.status(500).json({err: 'Failed to get users' });
+            res.status(500).json({err: 'Failed to get foodItems' });
         });
 });
 
-router.get('/:id', authenticate, (req, res) => {
-    Users.findById(req.params.id)
-        .then(user => {
-            if(user) {
-                res.status(200).json(user);
+router.get('/:id', (req, res) => {
+    Fooditems.findById(req.params.id)
+        .then(foodItem => {
+            if(foodItem) {
+                res.status(200).json(foodItem);
             } else {
-                res.status(404).json({msg: 'Could not find user with given id.'})
+                res.status(404).json({msg: 'Could not find foodItem with given id.'})
             }  
         })
         .catch(err => {
-            res.status(500).json({err: 'Failed to get user' });
+            res.status(500).json({err: 'Failed to get foodItem' });
         });
 });
 
-router.post('/:id', (req, res) => {
-    Users.add(req.body)
-    .then(newUser => {
-        res.status(201).json(newUser);
-    })
-    .catch (err => {
-        res.status(500).json({ message: 'Failed to create new user' });
-      });
-});
+// router.get('/:id/donors', (req, res) => {
+//     Fooditems.findDonors(req.params.id)
+//     .then(donors => {
+//         if(donors) {
+//             res.status(200).json(donors);
+//         } else {
+//             res.status(404).json({msg: 'Could not find donors'})
+//         }  
+//     })
+//     .catch(err => {
+//         res.status(500).json({err: 'Failed to get donors' });
+//     });
+// });
 
-router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
-    res.status(200).json({msg:'Welcome donor or volunteer'});
-});
+// router.get('/:id/volunteers', (req, res) => {
+//     Fooditems.findVolunteers(req.params.id)
+//     .then(volunteers => {
+//         if(volunteers) {
+//             res.status(200).json(volunteers);
+//         } else {
+//             res.status(404).json({msg: 'Could not find volunteers'})
+//         }  
+//     })
+//     .catch(err => {
+//         res.status(500).json({err: 'Failed to get volunteers' });
+//     });
+// });
 
-function checkRole(roles) {
-    return function (req, res, next) {
-        roles.forEach(role => {
-            if(role.decodedToken === role)
-            next();
-        })
-    }
-};
-
-router.put('/:id', authenticate, (req, res) => {
-    Users.findById(req.params.id)
+router.put('/:id', (req, res) => {
+    Fooditems.findById(req.params.id)
         .update(req.body)
-        .then(([updatedUser]) => {
-            if(updatedUser) {
-                res.status(200).json(updatedUser);
+        .then(([updateFooditem]) => {
+            if(updateFooditem) {
+                res.status(200).json(updateFooditem);
             } else {
-                res.status(400).json({msg: 'Please provide username & password for user with given id.'})
+                res.status(400).json({msg: 'Please provide foodItem info with given id.'})
             }  
         })
         .catch(err => {
-            res.status(500).json({err: 'Failed to edit user' });
+            res.status(500).json({err: 'Failed to edit foodItem' });
         });     
 });
 
-router.delete('/:id', authenticate, (req, res) => {
-    Users.remove(req.params.id)
+router.delete('/:id', (req, res) => {
+    Fooditems.remove(req.params.id)
     .then(() => {
-        res.status(201).json({msg: 'user is deleted'});
+        res.status(201).json({msg: 'foodItem is deleted'});
     })
     .catch (err => {
-        res.status(500).json({ message: 'Failed to delete user' });
+        res.status(500).json({ message: 'Failed to delete foodItem' });
       });
 });
+
+module.exports = router;
