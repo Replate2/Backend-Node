@@ -2,55 +2,58 @@ const db = require("../data/connection.js");
 const Foods = require('../data/connection.js');
 
 module.exports = {
-    add,
+   
     find,
-    findBy,
     findById,
     findFooditems,
+    add,
     update,
     remove
 };
 
 
 function find() {
-    return db('users').select('id', username).orderBy(id);
-};
-
-function findBy() {
-    return db('users as u')
-    .join( 'roles as r', 'r.id', 'u.role')
-    .where(filter)
-    .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'r.name as role')
-    .orderBy('u.id')
+    return db('donors').select('id', 'name', 'username').orderBy('id');
 };
 
 function findById(id) {
-    return db('users').where({id}).first()
+    return db('donors').where({id}).first()
 };
 
-function findFooditems() {
-    return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id')
-        .join('foodItems as f', 'f.id')
-        .join('donors as d', 'd.id')
-        .where(filter)
-        .select('f.name')
-        .orderBy('f.name')
+function findFooditems(id) {
+    return db('volunteer_donor_foodItem').where({donor_id: id})
+        .then((donorFoods) => {
+            let promises = [];
+            donorFoods.map(donorFoods => {
+               promises.push(Foods.where({id: donorFoods.foodItem.id}))
+            })
+            return Promise.all(promises);
+        })
 };
 
-function add(user) {
-    return db('users').insert(user)
-    .then(([user]) => {
-        return findById(user);
+// function findFooditems() {
+//     return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id')
+//         .join('foodItems as f', 'f.id')
+//         .join('donors as d', 'd.id')
+//         .where(filter)
+//         .select('f.name')
+//         .orderBy('f.name')
+// };
+
+function add(donors) {
+    return db('donors').insert(donors)
+    .then(([donor]) => {
+        return findById(donor);
     })
 };
 
 function update(id, changes) {
-    return db('users').where({id}).update(changes)
+    return db('donors').where({id}).update(changes)
     .then(() => {
         return findById(id);
     })
 };
 
 function remove(id) {
-    return db('users').where({id}).delete();
+    return db('donors').where({id}).delete();
 };

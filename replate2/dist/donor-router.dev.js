@@ -10,10 +10,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var router = require("express").Router();
 
-var Donors = require("./donor-model.js");
+var Foods = require('../data/connection.js');
+
+var Users = require("../users/user-model.js");
 
 router.get("/", function (req, res) {
-  Donors.find().then(function (donors) {
+  Users.findDonors().then(function (donors) {
     if (donors) {
       res.status(200).json(donors);
     } else {
@@ -28,7 +30,7 @@ router.get("/", function (req, res) {
   });
 });
 router.get('/:id', function (req, res) {
-  Donors.findById(req.params.id).then(function (donor) {
+  Users.findById(req.params.id).then(function (donor) {
     if (donor) {
       res.status(200).json(donor);
     } else {
@@ -43,7 +45,7 @@ router.get('/:id', function (req, res) {
   });
 });
 router.get('/:id/foodItems', function (req, res) {
-  Donors.findFooditems().then(function (foods) {
+  Users.findFooditems(req.params.id).then(function (foods) {
     if (foods) {
       res.status(200).json(foods);
     } else {
@@ -65,18 +67,22 @@ router.post('/:id', function (req, res) {
       message: 'Failed to create new donor'
     });
   });
-}); // router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
-//     res.status(200).json({msg:'Welcome donor or volunteer'});
-// });
-// function checkRole(roles) {
-//     return function (req, res, next) {
-//         roles.forEach(role => {
-//             if(role.decodedToken === role)
-//             next();
-//         })
-//     }
-// };
-
+});
+router.post('/:id/foodItems', function (req, res) {
+  Donors.findById(req.params.id).then(function (donor) {
+    if (donor) {
+      Foods.insert(req.body);
+    } else {
+      res.status(400).json({
+        msg: 'Please provide donor information'
+      });
+    }
+  })["catch"](function (err) {
+    res.status(500).json({
+      err: 'Failed to add foodItems'
+    });
+  });
+});
 router.put('/:id', function (req, res) {
   Donors.findById(req.params.id).update(req.body).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 1),
@@ -106,3 +112,4 @@ router["delete"]('/:id', function (req, res) {
     });
   });
 });
+module.exports = router;

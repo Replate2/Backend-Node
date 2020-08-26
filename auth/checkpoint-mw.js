@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const secretCode = require("../config/secretCode.js");
 
-module.exports = (req, res, next) => {
+const authenticate = (req, res, next) => {
     // add code here to verify users are logged in
     const token = req.headers.authorization;
 
@@ -22,3 +22,19 @@ module.exports = (req, res, next) => {
         res.status(401).json({ message: "Please provide credentials" });
     }
 };
+
+const checkUserIdMatch = (req, res, next) => {
+    console.log(typeof(req.params.id), typeof(req.decodedToken.id));
+    console.log(req.params.id, req.decodedToken);
+    if (req.decodedToken.id && req.decodedToken.id == req.params.id) {
+        next();
+    } else {
+        res.status(401).json({ message: "No access to other user id" });
+    }
+};
+
+
+module.exports = {
+    authenticate: authenticate,
+    checkUserIdMatch: checkUserIdMatch
+}

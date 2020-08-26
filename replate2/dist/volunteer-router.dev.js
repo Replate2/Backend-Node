@@ -10,90 +10,97 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var router = require("express").Router();
 
-var Users = require("./user-model.js");
+var Foods = require('../data/connection.js');
 
-var authenticate = require('./checkpoint-mw.js');
+var Users = require("../users/user-model.js");
 
-router.get("/", authenticate, function (req, res) {
-  Users.find().then(function (users) {
-    if (users) {
-      res.status(200).json(users);
+router.get("/", function (req, res) {
+  Users.findVolunteers().then(function (volunteers) {
+    if (volunteers) {
+      res.status(200).json(volunteers);
     } else {
       res.status(400).json({
-        msg: 'bad requests for users'
+        msg: 'bad requests for volunteers'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to get users'
+      err: 'Failed to get volunteers'
     });
   });
 });
-router.get('/:id', authenticate, function (req, res) {
-  Users.findById(req.params.id).then(function (user) {
-    if (user) {
-      res.status(200).json(user);
+router.get('/:id', function (req, res) {
+  Volunteers.findById(req.params.id).then(function (volunteer) {
+    if (volunteer) {
+      res.status(200).json(volunteer);
     } else {
       res.status(404).json({
-        msg: 'Could not find user with given id.'
+        msg: 'Could not find volunteer with given id.'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to get user'
+      err: 'Failed to get volunteer'
     });
   });
 });
-router.post('/:id', function (req, res) {
-  Users.add(req.body).then(function (newUser) {
-    res.status(201).json(newUser);
+router.get('/:id/foodItems', function (req, res) {
+  Volunteers.findFooditems(req.params.id).then(function (foods) {
+    if (foods) {
+      res.status(200).json(foods);
+    } else {
+      res.status(404).json({
+        msg: 'Could not get foods'
+      });
+    }
   })["catch"](function (err) {
     res.status(500).json({
-      message: 'Failed to create new user'
+      err: 'Failed to get foods'
     });
   });
 });
-router.put('/:id', checkRole(['donor', 'volunteer']), function (req, res) {
-  res.status(200).json({
-    msg: 'Welcome donor or volunteer'
-  });
-});
-
-function checkRole(roles) {
-  return function (req, res, next) {
-    roles.forEach(function (role) {
-      if (role.decodedToken === role) next();
-    });
-  };
-}
-
-;
-router.put('/:id', authenticate, function (req, res) {
-  Users.findById(req.params.id).update(req.body).then(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 1),
-        updatedUser = _ref2[0];
-
-    if (updatedUser) {
-      res.status(200).json(updatedUser);
+router.post('/:id/foodItems', function (req, res) {
+  Volunteers.findById(req.params.id).then(function (volunteer) {
+    if (volunteer) {
+      Foods.insert(req.body);
     } else {
       res.status(400).json({
-        msg: 'Please provide username & password for user with given id.'
+        msg: 'Please provide volunteer information'
       });
     }
   })["catch"](function (err) {
     res.status(500).json({
-      err: 'Failed to edit user'
+      err: 'Failed to add foodItems'
     });
   });
 });
-router["delete"]('/:id', authenticate, function (req, res) {
-  Users.remove(req.params.id).then(function () {
+router.put('/:id', function (req, res) {
+  Volunteers.findById(req.params.id).update(req.body).then(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 1),
+        updatedVolunteer = _ref2[0];
+
+    if (updatedVolunteer) {
+      res.status(200).json(updatedVolunteer);
+    } else {
+      res.status(400).json({
+        msg: 'Please provide volunteer username & password with given id.'
+      });
+    }
+  })["catch"](function (err) {
+    res.status(500).json({
+      err: 'Failed to edit volunteer'
+    });
+  });
+});
+router["delete"]('/:id', function (req, res) {
+  Volunteers.remove(req.params.id).then(function () {
     res.status(201).json({
-      msg: 'user is deleted'
+      msg: 'volunteer is deleted'
     });
   })["catch"](function (err) {
     res.status(500).json({
-      message: 'Failed to delete user'
+      message: 'Failed to delete volunteer'
     });
   });
 });
+module.exports = router;

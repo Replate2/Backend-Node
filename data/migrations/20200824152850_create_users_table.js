@@ -10,29 +10,30 @@ exports.up = function(knex) {
         tbl.string("password", 256).notNullable().unique();
         tbl.string("phone-number", 256).notNullable().unique();
         tbl.text('address', 128).unsigned();
+        tbl.enu('role', ['donor', 'volunteer', 'both', 'none']).defaultTo('both');
     })
 
-    .createTable("volunteers", tbl => {
-        tbl.increments();
+    // .createTable("volunteers", tbl => {
+    //     tbl.increments();
         
-        tbl.integer("user_id")
-            .unsigned()
-            .references("id")
-            .inTable('users')
-            .onDelete("RESTRICT")
-            .onUpdate("CASCADE");
-    })
+    //     tbl.integer("user_id")
+    //         .unsigned()
+    //         .references("id")
+    //         .inTable('users')
+    //         .onDelete("RESTRICT")
+    //         .onUpdate("CASCADE");
+    // })
 
-    .createTable("donors", tbl => {
-        tbl.increments();
+    // .createTable("donors", tbl => {
+    //     tbl.increments();
 
-        tbl.integer("user_id")
-            .unsigned()
-            .references("id")
-            .inTable('users')
-            .onDelete("RESTRICT")
-            .onUpdate("CASCADE");
-    })
+    //     tbl.integer("user_id")
+    //         .unsigned()
+    //         .references("id")
+    //         .inTable('users')
+    //         .onDelete("RESTRICT")
+    //         .onUpdate("CASCADE");
+    // })
 
     .createTable("foodItems", tbl => {
         tbl.increments();
@@ -45,10 +46,25 @@ exports.up = function(knex) {
     .createTable("volunteer_donor_foodItem", tbl => {
         tbl.increments();
 
-        tbl.integer("users")
+        tbl.timestamp('pickup-time');
+        tbl.integer("vol_id")
             .unsigned()
             .references("id")
             .inTable('users')
+            .onDelete("RESTRICT")
+            .onUpdate("CASCADE");
+
+        tbl.integer("donor_id")
+            .unsigned()
+            .references("id")
+            .inTable('users')
+            .onDelete("RESTRICT")
+            .onUpdate("CASCADE");
+
+        tbl.integer("food_id")
+            .unsigned()
+            .references("id")
+            .inTable('foodItems')
             .onDelete("RESTRICT")
             .onUpdate("CASCADE");
     });
@@ -57,7 +73,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
     return knex.schema.dropTableIfExists("volunteer_donor_foodItem")
                         .dropTableIfExists("foodItems")
-                        .dropTableIfExists("donors")
-                        .dropTableIfExists("volunteers")
+                        // .dropTableIfExists("donors")
+                        // .dropTableIfExists("volunteers")
                         .dropTableIfExists("users");
 };
