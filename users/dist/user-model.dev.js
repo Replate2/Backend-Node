@@ -38,7 +38,7 @@ module.exports = {
 };
 
 function find() {
-  return db('users').select('id', 'name', 'username', 'role').orderBy('id');
+  return db('users').select('id', 'name', 'username', 'role', 'phone-number', 'password').orderBy('id');
 }
 
 ;
