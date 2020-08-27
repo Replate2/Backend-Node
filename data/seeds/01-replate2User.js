@@ -1,25 +1,57 @@
 exports.seed = function (knex) {
   // 000-cleanup.js already cleaned out all tables
-  return knex('users')
-      return knex('volunteers').insert([
-        // {id: 1, name: 'Mathew', username: 'mathew'},
-        // {id: 2, name: 'John'},
-        // {id: 3, name: 'Dustin'}
+  return knex('users').truncate()
+    .then(function () {
+      return knex('users').insert([
+        {
+          "name": "Var",
+          "username": "Varsh",
+          "password": "Varsh1",
+          "phone-number": "4507075000",
+          "address": "123 First st, Hayward, CA"
+      },
+      {
+        "name": "Pari",
+        "username": "Parimala",
+        "password": "Varsh1",
+        "phone-number": "6507075000",
+        "address": "123 First st, Hayward, CA",
+        "role": "donor"
+      },
+      {
+        "name": "Harry",
+        "username": "Harry Potter",
+        "password": "Potter1",
+        "phone-number": "5007075000",
+        "address": "123 First st, Hayward, CA",
+        "role": "donor"
+      },
+      {
+        "name": "Gandalf",
+        "username": "Gandalf",
+        "password": "dalf1",
+        "phone-number": "4087075000",
+        "address": "123 First st, Hayward, CA",
+        "role": "volunteer"
+      },
+      {
+        "name": "Spencer",
+        "username": "spencer",
+        "password": "Spencer1",
+        "phone-number": "5007075000",
+        "address": "123 First st, Hayward, CA",
+        "role": "donor"
+      },
+      {
+        "name": "Christina",
+        "username": "christina",
+        "password": "Christina1",
+        "phone-number": "5007075000",
+        "address": "123 First st, Hayward, CA",
+        "role": "volunteer"
+      }
       ]);
-
-  // const users = [
-  //   {
-  //     name: "volunteer", // will get id 1
-  //   },
-  //   {
-  //     name: "donor", // will get id 2
-  //   },
-  // ];
-
-  return knex("users")
-    .insert(users)
-    .then(() => console.log("\n== Seed data for users table added. ==\n"));
-
+    })
 };
 
 // exports.seed = function(knex) {

@@ -31,9 +31,7 @@ router.post("/register", function (req, res) {
     credentials.password = hash; // save the user to the database
 
     Users.add(credentials).then(function (user) {
-      res.status(201).json({
-        data: user
-      });
+      res.status(201).json(user);
     })["catch"](function (error) {
       res.status(500).json({
         message: error.message

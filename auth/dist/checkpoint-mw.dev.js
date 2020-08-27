@@ -1,7 +1,5 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 var jwt = require("jsonwebtoken");
 
 var secretCode = require("../config/secretCode.js");
@@ -13,7 +11,8 @@ var authenticate = function authenticate(req, res, next) {
   if (token) {
     jwt.verify(token, secretCode.jwtSecret, function (error, decodedToken) {
       if (error) {
-        // token not valid or was modified
+        console.log('authenticate error: ', error); // token not valid or was modified
+
         res.status(401).json({
           you: "shall not pass!"
         });
@@ -31,9 +30,8 @@ var authenticate = function authenticate(req, res, next) {
 };
 
 var checkUserIdMatch = function checkUserIdMatch(req, res, next) {
-  console.log(_typeof(req.params.id), _typeof(req.decodedToken.id));
-  console.log(req.params.id, req.decodedToken);
-
+  // console.log(typeof(req.params.id), typeof(req.decodedToken.id));
+  // console.log(req.params.id, req.decodedToken);
   if (req.decodedToken.id && req.decodedToken.id == req.params.id) {
     next();
   } else {

@@ -1,13 +1,5 @@
 "use strict";
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var router = require("express").Router();
 
 var Foods = require('../data/connection.js');
@@ -30,7 +22,7 @@ router.get("/", function (req, res) {
   });
 });
 router.get('/:id', function (req, res) {
-  Volunteers.findById(req.params.id).then(function (volunteer) {
+  Users.findVolunteerById(req.params.id).then(function (volunteer) {
     if (volunteer) {
       res.status(200).json(volunteer);
     } else {
@@ -45,7 +37,7 @@ router.get('/:id', function (req, res) {
   });
 });
 router.get('/:id/foodItems', function (req, res) {
-  Volunteers.findFooditems(req.params.id).then(function (foods) {
+  Users.findFooditems(req.params.id).then(function (foods) {
     if (foods) {
       res.status(200).json(foods);
     } else {
@@ -75,10 +67,7 @@ router.post('/:id/foodItems', function (req, res) {
   });
 });
 router.put('/:id', function (req, res) {
-  Volunteers.findById(req.params.id).update(req.body).then(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 1),
-        updatedVolunteer = _ref2[0];
-
+  Users.update(req.params.id, req.body).then(function (updatedVolunteer) {
     if (updatedVolunteer) {
       res.status(200).json(updatedVolunteer);
     } else {
@@ -92,8 +81,19 @@ router.put('/:id', function (req, res) {
     });
   });
 });
+router.put('/:id/foodItems/:foodId', function (req, res) {
+  var pickupTime = req.body.pickupTime;
+  Users.updateTime(req.params.id, pickupTime).then(function (vdf) {
+    console.log(vdf);
+    res.status(200).json(vdf);
+  })["catch"](function (err) {
+    res.status(500).json({
+      err: 'Failed to edit pickup time'
+    });
+  });
+});
 router["delete"]('/:id', function (req, res) {
-  Volunteers.remove(req.params.id).then(function () {
+  Users.remove(req.params.id).then(function () {
     res.status(201).json({
       msg: 'volunteer is deleted'
     });

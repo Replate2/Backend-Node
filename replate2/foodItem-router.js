@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const Fooditems = require("./fooditem-model.js");
+const FoodItems = require("./foodItem-model.js");
 
 router.get("/", (req, res) => {
-    Fooditems.find()
+    FoodItems.find()
         .then(foodItems => {
             if(foodItems) {
                 res.status(200).json(foodItems);
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    Fooditems.findById(req.params.id)
+    FoodItems.findById(req.params.id)
         .then(foodItem => {
             if(foodItem) {
                 res.status(200).json(foodItem);
@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
 });
 
 // router.get('/:id/donors', (req, res) => {
-//     Fooditems.findDonors(req.params.id)
+//     FoodItems.findDonors(req.params.id)
 //     .then(donors => {
 //         if(donors) {
 //             res.status(200).json(donors);
@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
 // });
 
 // router.get('/:id/volunteers', (req, res) => {
-//     Fooditems.findVolunteers(req.params.id)
+//     FoodItems.findVolunteers(req.params.id)
 //     .then(volunteers => {
 //         if(volunteers) {
 //             res.status(200).json(volunteers);
@@ -58,11 +58,13 @@ router.get('/:id', (req, res) => {
 // });
 
 router.put('/:id', (req, res) => {
-    Fooditems.findById(req.params.id)
-        .update(req.body)
-        .then(([updateFooditem]) => {
-            if(updateFooditem) {
-                res.status(200).json(updateFooditem);
+    console.log(req.params.id, req.body);
+    FoodItems
+        .update(req.params.id, req.body)
+        .then((updateFoodItem) => {
+            console.log(updateFoodItem)
+            if(updateFoodItem) {
+                res.status(200).json(updateFoodItem);
             } else {
                 res.status(400).json({msg: 'Please provide foodItem info with given id.'})
             }  
@@ -73,7 +75,7 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    Fooditems.remove(req.params.id)
+    FoodItems.remove(req.params.id)
     .then(() => {
         res.status(201).json({msg: 'foodItem is deleted'});
     })

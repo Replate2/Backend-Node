@@ -18,7 +18,7 @@ router.get("/", authenticate, (req, res) => {
         });
 });
 
-router.get('/:id', authenticate, checkUserIdMatch, (req, res) => {
+router.get('/:id', authenticate, (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
             if(user) {
@@ -64,19 +64,6 @@ router.post('/:id/foodItems', (req, res) => {
         });
 });
 
-// router.put('/:id', checkRole(['donor', 'volunteer']), (req, res) => {
-//     res.status(200).json({msg:'Welcome donor or volunteer'});
-// });
-
-// function checkRole(users) {
-//     return function (req, res, next) {
-//         Users.forEach(user => {
-//             if(user.decodedToken === user)
-//             next();
-//         })
-//     }
-// };
-
 router.put('/:id', authenticate, checkUserIdMatch, (req, res) => {
     console.log(req.params.id, req.body);
     Users.update(req.params.id, req.body)
@@ -93,8 +80,9 @@ router.put('/:id', authenticate, checkUserIdMatch, (req, res) => {
         });     
 });
 
-router.delete('/:id', authenticate, (req, res) => {
-    Users.remove(req.params.id)
+router.delete('/:id', authenticate, checkUserIdMatch, (req, res) => {
+    console.log('delete request', req.params.id);
+    Users.remove(req.params.id, req.headers.authorization)
     .then(() => {
         res.status(201).json({msg: 'user is deleted'});
     })

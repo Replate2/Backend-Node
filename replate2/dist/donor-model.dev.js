@@ -13,40 +13,16 @@ var db = require("../data/connection.js");
 var Foods = require('../data/connection.js');
 
 module.exports = {
-  find: find,
   findById: findById,
-  findFooditems: findFooditems,
   add: add,
   update: update,
   remove: remove
 };
 
-function find() {
-  return db('donors').select('id', 'name', 'username').orderBy('id');
-}
-
-;
-
 function findById(id) {
   return db('donors').where({
     id: id
   }).first();
-}
-
-;
-
-function findFooditems(id) {
-  return db('volunteer_donor_foodItem').where({
-    donor_id: id
-  }).then(function (donorFoods) {
-    var promises = [];
-    donorFoods.map(function (donorFoods) {
-      promises.push(Foods.where({
-        id: donorFoods.foodItem.id
-      }));
-    });
-    return Promise.all(promises);
-  });
 }
 
 ; // function findFooditems() {

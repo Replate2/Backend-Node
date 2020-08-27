@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    Users.findById(req.params.id)
+    Users.findDonorById(req.params.id)
         .then(donor => {
             if(donor) {
                 res.status(200).json(donor);
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/foodItems', (req, res) => {
     Users.findFooditems(req.params.id)
-    .then(foods => {
+    .then((foods) => {
         if(foods) {
             res.status(200).json(foods);
         } else {
@@ -42,16 +42,6 @@ router.get('/:id/foodItems', (req, res) => {
     .catch(err => {
         res.status(500).json({err: 'Failed to get foods' });
     });
-});
-
-router.post('/:id', (req, res) => {
-    Donors.add(req.body)
-    .then(newDonor => {
-        res.status(201).json(newDonor);
-    })
-    .catch (err => {
-        res.status(500).json({ message: 'Failed to create new donor' });
-      });
 });
 
 router.post('/:id/foodItems', (req, res) => {
@@ -69,9 +59,10 @@ router.post('/:id/foodItems', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    Donors.findById(req.params.id)
-        .update(req.body)
-        .then(([updateDonor]) => {
+    Users
+        .updateDonor(req.params.id, req.body)
+        .then((updateDonor) => {
+            console.log(updateDonor)
             if(updateDonor) {
                 res.status(200).json(updateDonor);
             } else {
@@ -84,7 +75,7 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    Donors.remove(req.params.id)
+    Users.remove(req.params.id)
     .then(() => {
         res.status(201).json({msg: 'donor is deleted'});
     })
