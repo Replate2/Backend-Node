@@ -101,4 +101,6 @@ Responses
 - status code [200] (successful to get  list of users )
 - status code [500] (server or database error)
 
+All the other endpoints are in the link:
+
 https://documenter.getpostman.com/view/12184518/TVCb3q61
