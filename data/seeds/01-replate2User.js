@@ -1,57 +1,54 @@
 exports.seed = function (knex) {
   // 000-cleanup.js already cleaned out all tables
-  return knex('users').truncate()
-    .then(function () {
-      return knex('users').insert([
-        {
-          "name": "Var",
-          "username": "Varsh",
-          "password": "Varsh1",
-          "phone-number": "4507075000",
-          "address": "123 First st, Hayward, CA"
-      },
+    return knex('users').insert([
       {
-        "name": "Pari",
-        "username": "Parimala",
+        "name": "Var",
+        "username": "Varsh",
         "password": "Varsh1",
-        "phone-number": "6507075000",
-        "address": "123 First st, Hayward, CA",
-        "role": "donor"
-      },
-      {
-        "name": "Harry",
-        "username": "Harry Potter",
-        "password": "Potter1",
-        "phone-number": "5007075000",
-        "address": "123 First st, Hayward, CA",
-        "role": "donor"
-      },
-      {
-        "name": "Gandalf",
-        "username": "Gandalf",
-        "password": "dalf1",
-        "phone-number": "4087075000",
-        "address": "123 First st, Hayward, CA",
-        "role": "volunteer"
-      },
-      {
-        "name": "Spencer",
-        "username": "spencer",
-        "password": "Spencer1",
-        "phone-number": "5007075000",
-        "address": "123 First st, Hayward, CA",
-        "role": "donor"
-      },
-      {
-        "name": "Christina",
-        "username": "christina",
-        "password": "Christina1",
-        "phone-number": "5007075000",
-        "address": "123 First st, Hayward, CA",
-        "role": "volunteer"
-      }
-      ]);
-    })
+        "phone-number": "4507075000",
+        "address": "123 First st, Hayward, CA"
+    },
+    {
+      "name": "Pari",
+      "username": "Parimala",
+      "password": "Varsh1",
+      "phone-number": "6507075000",
+      "address": "123 First st, Hayward, CA",
+      "role": "donor"
+    },
+    {
+      "name": "Harry",
+      "username": "Harry Potter",
+      "password": "Potter1",
+      "phone-number": "5007075000",
+      "address": "123 First st, Hayward, CA",
+      "role": "donor"
+    },
+    {
+      "name": "Gandalf",
+      "username": "Gandalf",
+      "password": "dalf1",
+      "phone-number": "4087075000",
+      "address": "123 First st, Hayward, CA",
+      "role": "volunteer"
+    },
+    {
+      "name": "Spencer",
+      "username": "spencer",
+      "password": "Spencer1",
+      "phone-number": "5007075000",
+      "address": "123 First st, Hayward, CA",
+      "role": "donor"
+    },
+    {
+      "name": "Christina",
+      "username": "christina",
+      "password": "Christina1",
+      "phone-number": "5007075000",
+      "address": "123 First st, Hayward, CA",
+      "role": "volunteer"
+    }
+    ]);
 };
 
 // exports.seed = function(knex) {
