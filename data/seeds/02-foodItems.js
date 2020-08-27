@@ -18,7 +18,7 @@ exports.seed = function(knex) {
         "quantity": "3 lbs"
         },
         {
-          "name": " egg puffs",
+          "name": "Noodles",
           "type": "appetiser",
           "quantity": "4 lbs"
           },
@@ -28,7 +28,7 @@ exports.seed = function(knex) {
             "quantity": "4 lbs"
             },
             {
-              "name": " pie",
+              "name": "apple pie",
               "type": "dessert",
               "quantity": "2 lbs"
               }
