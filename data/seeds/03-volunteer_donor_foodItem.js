@@ -22,7 +22,7 @@ exports.seed = function(knex) {
       {
         "vol_id": 1,
         "donor_id": 2,
-        "food_id": 1,
+        "food_id": 6,
         "pickupTime": "5pm Sep 11th, 2020"
       },
       {
