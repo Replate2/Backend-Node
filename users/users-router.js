@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Users = require("./users-model");
-const protected = require("../auth/authenticate-middleware");
+const protect = require("../auth/authenticate-middleware");
 
 router.get("/", (req, res) => {
   Users.find()
@@ -15,7 +15,7 @@ router.get("/:id", (req, res) => {
     .catch((error) => res.status(500).json({ error: error.message }).end());
 });
 
-router.post("/", protected, (req, res) => {
+router.post("/", protect, (req, res) => {
   Users.add(req.body)
     .then((message) => res.json({ message }).end())
     .catch((error) => res.status(500).json({ error: message }).end());

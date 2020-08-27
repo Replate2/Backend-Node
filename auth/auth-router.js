@@ -14,7 +14,7 @@ router.post("/register", (req, res) => {
   credentials.password = hash;
 
   Auth.add(credentials)
-    .then((message) => res.json({ message }).end())
+    .then((message) => res.status(201).json({ message }).end())
     .catch(() =>
       res
         .status(500)
