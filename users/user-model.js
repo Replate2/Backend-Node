@@ -11,7 +11,7 @@ module.exports = {
     findVolunteers,
     findVolunteerById,
     findFooditems,
-    // findBy,
+    findBy,
     add,
     addFood,
     update,
@@ -67,12 +67,12 @@ function findFooditems(id) {
 //     .orderBy('u.id')
 // };
 
-// function findBy(filter) {
-//     return db("users as u")
-//         .where(filter)
-//         .select("u.id", "u.username", "u.password", "u.role")
-//         .orderBy("u.id");
-// };
+function findBy(filter) {
+    return db("users as u")
+        .where(filter)
+        .select("u.id", "u.username", "u.password", "u.role")
+        .orderBy("u.id");
+};
 
 function add(user) {
     return db('users').insert(user, "id")
