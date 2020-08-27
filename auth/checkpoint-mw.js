@@ -9,6 +9,7 @@ const authenticate = (req, res, next) => {
     if (token) {
         jwt.verify(token, secretCode.jwtSecret, (error, decodedToken) => {
             if (error) {
+                console.log('authenticate error: ', error)
                 // token not valid or was modified
                 res.status(401).json({ you: "shall not pass!" });
             } else {
@@ -24,14 +25,15 @@ const authenticate = (req, res, next) => {
 };
 
 const checkUserIdMatch = (req, res, next) => {
-    console.log(typeof(req.params.id), typeof(req.decodedToken.id));
-    console.log(req.params.id, req.decodedToken);
+    // console.log(typeof(req.params.id), typeof(req.decodedToken.id));
+    // console.log(req.params.id, req.decodedToken);
     if (req.decodedToken.id && req.decodedToken.id == req.params.id) {
         next();
     } else {
         res.status(401).json({ message: "No access to other user id" });
     }
 };
+
 
 
 module.exports = {

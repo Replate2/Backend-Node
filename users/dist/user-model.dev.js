@@ -16,18 +16,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var db = require("../data/connection.js");
 
+var jwt = require("jsonwebtoken");
+
 var Foods = require('../replate2/foodItem-model.js');
 
 module.exports = {
   find: find,
   findById: findById,
   findDonors: findDonors,
+  findDonorById: findDonorById,
   findVolunteers: findVolunteers,
+  findVolunteerById: findVolunteerById,
   findFooditems: findFooditems,
   // findBy,
   add: add,
   addFood: addFood,
   update: update,
+  updateDonor: updateDonor,
+  updateTime: updateTime,
   remove: remove
 };
 
@@ -38,6 +44,7 @@ function find() {
 ;
 
 function findById(id) {
+  console.log('findById', id);
   return db('users').where({
     id: id
   }).select('id', 'name', 'username', 'phone-number', 'role').first();
@@ -49,9 +56,29 @@ function findDonors() {
   return db('users').select('id', 'name', 'username', 'role').whereIn('role', ['donor', 'both']).orderBy('id');
 }
 
+;
+
+function findDonorById(id) {
+  return db('users').select('id', 'name', 'username', 'role').where({
+    id: id
+  }).whereIn('role', ['donor', 'both']).first();
+}
+
+;
+
 function findVolunteers() {
   return db('users').select('id', 'name', 'username', 'role').whereIn('role', ['volunteer', 'both']).orderBy('id');
 }
+
+;
+
+function findVolunteerById(id) {
+  return db('users').select('id', 'name', 'username', 'role').where({
+    id: id
+  }).whereIn('role', ['volunteer', 'both']).first();
+}
+
+;
 
 function findFooditems(id) {
   return db('volunteer_donor_foodItem').where({
@@ -60,7 +87,7 @@ function findFooditems(id) {
     console.log('donorFoods: ', donorFoods);
     var promises = [];
     donorFoods.map(function (food) {
-      promises.push(Foods.where({
+      promises.push(Foods.findBy({
         id: food.food_id
       }));
     });
@@ -130,7 +157,36 @@ function update(id, changes) {
 
 ;
 
-function remove(id) {
+function updateDonor(id, changes) {
+  console.log(id, changes);
+  return db('users').where({
+    id: id
+  }).update(changes).then(function (rv) {
+    console.log(rv);
+    return findDonorById(id);
+  });
+}
+
+;
+
+function updateTime(user_id, time) {
+  return db('volunteer_donor_foodItem').update({
+    vol_id: user_id,
+    pickupTime: time
+  }).then(function (count) {
+    return db('volunteer_donor_foodItem as vdf').where({
+      vol_id: user_id,
+      pickupTime: time
+    }).join('foodItems as f', 'f.id', 'vdf.food_id').join('users as u', 'u.id', 'vdf.vol_id').join('users as u2', 'u2.id', 'vdf.donor_id').select('vdf.id', 'vdf.vol_id', 'u.name as volunteer_name', 'vdf.donor_id', 'u2.name as donor_name', 'vdf.food_id', 'f.name as food_name', 'vdf.pickupTime').first().then(function (vdf) {
+      console.log('vdf:', vdf);
+      return vdf;
+    });
+  });
+}
+
+;
+
+function remove(id, token) {
   return db('users').where({
     id: id
   })["delete"]();

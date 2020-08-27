@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    Volunteers.findById(req.params.id)
+    Users.findVolunteerById(req.params.id)
         .then(volunteer => {
             if(volunteer) {
                 res.status(200).json(volunteer);
@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/foodItems', (req, res) => {
-    Volunteers.findFooditems(req.params.id)
+    Users.findFooditems(req.params.id)
     .then(foods => {
         if(foods) {
             res.status(200).json(foods);
@@ -59,9 +59,9 @@ router.post('/:id/foodItems', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    Volunteers.findById(req.params.id)
-        .update(req.body)
-        .then(([updatedVolunteer]) => {
+    Users
+        .update(req.params.id, req.body)
+        .then((updatedVolunteer) => {
             if(updatedVolunteer) {
                 res.status(200).json(updatedVolunteer);
             } else {
@@ -73,8 +73,20 @@ router.put('/:id', (req, res) => {
         });     
 });
 
+router.put('/:id/foodItems/:foodId', (req, res) => {
+    const pickupTime = req.body.pickupTime;
+    Users.updateTime(req.params.id, pickupTime)
+    .then((vdf) => {
+        console.log(vdf);
+        res.status(200).json(vdf);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to edit pickup time' });
+    });     
+});
+
 router.delete('/:id', (req, res) => {
-    Volunteers.remove(req.params.id)
+    Users.remove(req.params.id)
     .then(() => {
         res.status(201).json({msg: 'volunteer is deleted'});
     })

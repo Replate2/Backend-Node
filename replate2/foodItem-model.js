@@ -5,8 +5,9 @@ const Volunteers = require('../data/connection.js');
 module.exports = {
     find,
     findById,
-    findDonors,
-    findVolunteers,
+    // findBy,
+    // findDonors,
+    // findVolunteers,
     update,
     remove
 };
@@ -17,19 +18,23 @@ function find() {
 };
 
 function findById(id) {
-    return db('foodItems').where({id}).first()
+    return db('foodItems').where({id}).first();
 };
 
-function findDonors(id) {
-    return db('volunteer_donor_foodItem').where({food_id: id})
-        .then((foodDonors) => {
-            let promises = [];
-            foodDonors.map(foodDonors => {
-               promises.push(Donors.where({id: foodDonors.donor.id}))
-            })
-            return Promise.all(promises);
-        })
-};
+// function findBy(filter) {
+//     return db('foodItems').select('id', 'name', 'quantity').where(filter).first();
+// };
+
+// function findDonors(id) {
+//     return db('volunteer_donor_foodItem').where({food_id: id})
+//         .then((foodDonors) => {
+//             let promises = [];
+//             foodDonors.map(foodDonors => {
+//                promises.push(Donors.where({id: foodDonors.donor.id}))
+//             })
+//             return Promise.all(promises);
+//         })
+// };
 
 // function findDonors() {
 //     return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id')
@@ -40,20 +45,21 @@ function findDonors(id) {
 //         .orderBy('f.name')
 // };
 
-function findVolunteers(id) {
-    return db('volunteer_donor_foodItem').where({food_id: id})
-        .then((foodVolunteers) => {
-            let promises = [];
-            foodVolunteers.map(foodVolunteers => {
-               promises.push(Volunteers.where({id: foodVolunteers.volunteer.id}))
-            })
-            return Promise.all(promises);
-        })
-};
+// function findVolunteers(id) {
+//     return db('volunteer_donor_foodItem').where({food_id: id})
+//         .then((foodVolunteers) => {
+//             let promises = [];
+//             foodVolunteers.map(foodVolunteers => {
+//                promises.push(Volunteers.where({id: foodVolunteers.volunteer.id}))
+//             })
+//             return Promise.all(promises);
+//         })
+// };
 
 function update(id, changes) {
     return db('foodItems').where({id}).update(changes)
-    .then(() => {
+    .then((rv) => {
+        console.log(rv);
         return findById(id);
     })
 };

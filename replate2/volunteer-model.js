@@ -2,8 +2,7 @@ const db = require("../data/connection.js");
 const Foods = require('../data/connection.js');
 
 module.exports = {
-   
-    find,
+    // find,
     findById,
     findFooditems,
     add,
@@ -12,12 +11,12 @@ module.exports = {
 };
 
 
-function find() {
-    return db('volunteers as v', 'v.id')
-    .join('users as u', 'u.id', 'v.user_id')
-    .select('v.id', 'v.user_id', 'u.name', 'u.username')
-    .orderBy('v.id');
-};
+// function find() {
+//     return db('volunteers as v', 'v.id')
+//     .join('users as u', 'u.id', 'v.user_id')
+//     .select('v.id', 'v.user_id', 'u.name', 'u.username')
+//     .orderBy('v.id');
+// };
 
 function findById(id) {
     return db('volunteers').where({id}).first()
@@ -43,7 +42,10 @@ function findFooditems(id) {
 //         .orderBy('f.name')
 // };
 
-function add(volunteer) {
+function add(user_id) {
+    let obj = {
+        user_id: id,
+    }
     return db('volunteers').insert(volunteer)
     .then(([volunteer]) => {
         return findById(volunteer);
