@@ -4,11 +4,10 @@ Base URL: https://thereplate2.herokuapp.com/
 ------------------------------------------------------------------
 Auth Routes: /api/auth/register && /api/auth/login
 
-|Table|	Method|	Endpoint	        |Description                    |
+|Table|	Method|	Endpoint	        |Description                 |
 |-----|-------|-------------------|------------------------------|
-|users|	POST	|/api/auth/register	|registers a new user           |
-|-----|-------|-------------------|------------------------------|
-|users|	POST	|/api/auth/login	  | logs in if already registered  |
+|users|	POST	|/api/auth/register	|registers a new user        |
+|users|	POST	|/api/auth/login	| logs in if already registered  |
 
 Register
 -------------------------------------------------------------------
@@ -18,19 +17,16 @@ URL: /api/auth/register
 
 Headers
 
-|Name	         |Type	   |Required	 |Description                 |
+|Name	         |Type	   |Required	 |Description             |
 |--------------|---------|-----------|----------------------------|
 |Content-Type	 |String	 |Yes	       |Must be application/JSON    |
-|--------------|---------|-----------|----------------------------|
 |Authorization |String	 |no	       |                            |
-|--------------|---------|-----------|----------------------------|
 
 Request Body
 
 |Name	    |Type	  |Required	|Description.      |
 |---------|-------|---------|------------------|
 |Username	|String	|Yes	    | Must be unique.  |
-|---------|-------|---------|------------------|
 |password	|String	|Yes	    | Must be unique.  |
 
 Example
@@ -56,7 +52,6 @@ Headers
 |Name	         |Type	   |Required	 |Description                 |
 |--------------|---------|-----------|----------------------------|
 |Content-Type	 |String	 |Yes	       |Must be application/JSON    |
-|--------------|---------|-----------|----------------------------|
 |Authorization |String	 |Yes	       |JSON Web Token              |
 
 
@@ -65,7 +60,6 @@ Request Body
 |Name	    |Type	  |Required	|Description.                                      |
 |---------|-------|---------|--------------------------------------------------|
 |Username	|String	|Yes	    | Must match username in database                  |
-|---------|-------|---------|--------------------------------------------------|
 |password	|String	|Yes	    | Must match password associated with the username |
 
 Example
@@ -91,7 +85,6 @@ Headers
 |Name	         |Type	   |Required	 |Description                 |
 |--------------|---------|-----------|----------------------------|
 |Content-Type	 |String	 |Yes	       |Must be application/JSON    |
-|--------------|---------|-----------|----------------------------|
 |Authorization |String	 |Yes	       |JSON Web Token              |
 
 example
