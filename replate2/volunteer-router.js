@@ -88,7 +88,7 @@ router.put('/:id/foodItems/:foodId', (req, res) => {
 router.delete('/:id', (req, res) => {
     Users.remove(req.params.id)
     .then(() => {
-        res.status(201).json({msg: 'volunteer is deleted'});
+        res.status(200).json({msg: 'volunteer is deleted'});
     })
     .catch (err => {
         res.status(500).json({ message: 'Failed to delete volunteer' });

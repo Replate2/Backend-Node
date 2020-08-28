@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -24,7 +25,4 @@ server.get("/", (req, res) => {
     res.json({ api: "up" });
 });
 
-const PORT = process.env.PORT || 3300;
-server.listen(PORT, () => {
-  console.log(`\n=== Server listening on port ${PORT} ===\n`);
-});
+module.exports = server;
