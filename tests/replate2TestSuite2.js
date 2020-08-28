@@ -192,6 +192,9 @@ describe("server", () => {
             //             expect(res.status).toEqual(200);
             //         })
             // });
+
+            // toHaveProperty(key, value): checks if an object has a property, 
+            // and optionally checks its value
         })
     });
 });

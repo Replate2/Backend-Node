@@ -28,7 +28,7 @@ module.exports = {
   findVolunteers: findVolunteers,
   findVolunteerById: findVolunteerById,
   findFooditems: findFooditems,
-  // findBy,
+  findBy: findBy,
   add: add,
   addFood: addFood,
   update: update,
@@ -38,7 +38,7 @@ module.exports = {
 };
 
 function find() {
-  return db('users').select('id', 'name', 'username', 'role', 'phone-number', 'password').orderBy('id');
+  return db('users').select('id', 'name', 'username', 'role').orderBy('id');
 }
 
 ;
@@ -103,12 +103,12 @@ function findFooditems(id) {
 //     .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'v.id as volunteer', 'd.id as donor')
 //     .orderBy('u.id')
 // };
-// function findBy(filter) {
-//     return db("users as u")
-//         .where(filter)
-//         .select("u.id", "u.username", "u.password", "u.role")
-//         .orderBy("u.id");
-// };
+
+function findBy(filter) {
+  return db("users as u").where(filter).select("u.id", "u.username", "u.password", "u.role").orderBy("u.id");
+}
+
+;
 
 function add(user) {
   return db('users').insert(user, "id").then(function (_ref) {

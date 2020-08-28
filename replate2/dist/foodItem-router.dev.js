@@ -80,7 +80,7 @@ router.put('/:id', function (req, res) {
 });
 router["delete"]('/:id', function (req, res) {
   FoodItems.remove(req.params.id).then(function () {
-    res.status(201).json({
+    res.status(200).json({
       msg: 'foodItem is deleted'
     });
   })["catch"](function (err) {
