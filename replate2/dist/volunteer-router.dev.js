@@ -94,7 +94,7 @@ router.put('/:id/foodItems/:foodId', function (req, res) {
 });
 router["delete"]('/:id', function (req, res) {
   Users.remove(req.params.id).then(function () {
-    res.status(201).json({
+    res.status(200).json({
       msg: 'volunteer is deleted'
     });
   })["catch"](function (err) {

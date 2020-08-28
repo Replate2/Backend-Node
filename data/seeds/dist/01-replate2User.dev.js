@@ -1,7 +1,11 @@
 "use strict";
 
+var bcryptjs = require("bcryptjs");
+
 exports.seed = function (knex) {
   // 000-cleanup.js already cleaned out all tables
+  var rounds = process.env.BCRYPT_ROUNDS || 8; // hash the password
+
   return knex('users').insert([//   {
   //     "name": "Var",
   //     "username": "Varsh",
@@ -14,7 +18,7 @@ exports.seed = function (knex) {
     "username": "Varsh",
     "role": "both",
     "phone-number": "4507075000",
-    "password": "$2a$08$LiC8Ti5jJiS/SR3b6.4/v.BS6i64HdKi9jOuGfotaTEqs62esqAr2"
+    "password": bcryptjs.hashSync("Varsh1", rounds)
   }, // {
   //   "name": "Pari",
   //   "username": "Parimala",
@@ -28,7 +32,7 @@ exports.seed = function (knex) {
     "username": "Parimala",
     "role": "donor",
     "phone-number": "6507075000",
-    "password": "$2a$08$cIU1DhSiEiEYg.rHs.ehyONjPLTW6WypowAzqa2IxZk/YfhkSYkm."
+    "password": bcryptjs.hashSync("pari1", rounds)
   }, // {
   //   "name": "Harry",
   //   "username": "Harry Potter",
@@ -42,7 +46,7 @@ exports.seed = function (knex) {
     "username": "Harry Potter",
     "role": "donor",
     "phone-number": "5007075000",
-    "password": "$2a$08$/kIzbq5lpz5gtYOGytVt/.ra/TGXfZH.VWKrOdRrPOGG1gDAe0SsG"
+    "password": bcryptjs.hashSync("Potter1", rounds)
   }, // {
   //   "name": "Gandalf",
   //   "username": "Gandalf",
@@ -56,7 +60,7 @@ exports.seed = function (knex) {
     "username": "Gandalf",
     "role": "volunteer",
     "phone-number": "4087075000",
-    "password": "$2a$08$hTJfVsS/4IlKsLWfO8aKlOJFLXMePAIlxL6gRn1RrksE.by29L7JS"
+    "password": bcryptjs.hashSync("dalf1", rounds)
   }, // {
   //   "name": "Spencer",
   //   "username": "spencer",
@@ -70,7 +74,7 @@ exports.seed = function (knex) {
     "username": "spencer",
     "role": "donor",
     "phone-number": "5109009000",
-    "password": "$2a$08$CU/ZMJP6EbftVxSY1zlB4.y5yX6ujOPluqjlSbvqCp8xDdzmuJ4me"
+    "password": bcryptjs.hashSync("Spencer1", rounds)
   }, // {
   //   "name": "Christina",
   //   "username": "christina",
@@ -84,7 +88,7 @@ exports.seed = function (knex) {
     "username": "christina",
     "role": "volunteer",
     "phone-number": "5997075000",
-    "password": "$2a$08$myne6/hzdEXQ08jUcS0Kq.kNBVwUao.zVML7xzFd01rQ1Z0T/oet."
+    "password": bcryptjs.hashSync("Christina1", rounds)
   }]);
 }; // exports.seed = function(knex) {
 //   return knex('table_name').del()/.truncate()

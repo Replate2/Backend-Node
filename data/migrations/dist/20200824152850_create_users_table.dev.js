@@ -25,21 +25,4 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists("volunteer_donor_foodItem").dropTableIfExists("foodItems").dropTableIfExists("donors").dropTableIfExists("volunteers").dropTableIfExists("users");
-}; // .createTable("volunteers", tbl => {
-//     tbl.increments();
-//     tbl.integer("user_id")
-//         .unsigned()
-//         .references("id")
-//         .inTable('users')
-//         .onDelete("RESTRICT")
-//         .onUpdate("CASCADE");
-// })
-// .createTable("donors", tbl => {
-//     tbl.increments();
-//     tbl.integer("user_id")
-//         .unsigned()
-//         .references("id")
-//         .inTable('users')
-//         .onDelete("RESTRICT")
-//         .onUpdate("CASCADE");
-// })
+};
