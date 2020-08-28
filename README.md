@@ -26,13 +26,18 @@ Request Body
 
 |Name	    |Type	  |Required	|Description.      |
 |---------|-------|---------|------------------|
+|Name       |String |Yes        |Unique            |
 |Username	|String	|Yes	    | Must be unique.  |
 |password	|String	|Yes	    | Must be unique.  |
+|Phone-no   |Integer|Yes        |Unique            |
+|Address    |Varchar|Yes        |Unique            |
 
 Example
-    {
+    {   "name" : "one",
         "username": "one",
-        "password": "one"
+        "password": "one",
+        "phone-number":111,
+        "address":"123 1st st,SFO,CA"
     }
     
 Responses
@@ -52,7 +57,7 @@ Headers
 |Name	         |Type	   |Required	 |Description                 |
 |--------------|---------|-----------|----------------------------|
 |Content-Type	 |String	 |Yes	       |Must be application/JSON    |
-|Authorization |String	 |Yes	       |JSON Web Token              |
+|Authorization |String	 |No       |              |
 
 
 Request Body
