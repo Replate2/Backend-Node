@@ -78,7 +78,7 @@ router.post('/:id/foodItems', (req, res) => {
         })
         .catch(err => {
             res.status(500).json({
-                err: 'Failed to add foodItems'
+                err: 'Failed to add foodItems. ' + err
             });
         });
 });
