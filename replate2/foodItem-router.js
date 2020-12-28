@@ -58,11 +58,11 @@ router.get('/:id', (req, res) => {
 // });
 
 router.put('/:id', (req, res) => {
-    console.log(req.params.id, req.body);
+    // console.log(req.params.id, req.body);
     FoodItems
         .update(req.params.id, req.body)
         .then((updateFoodItem) => {
-            console.log(updateFoodItem)
+            // console.log(updateFoodItem)
             if(updateFoodItem) {
                 res.status(200).json(updateFoodItem);
             } else {

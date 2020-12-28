@@ -10,20 +10,20 @@ exports.seed = function (knex) {
   //     "name": "Var",
   //     "username": "Varsh",
   //     "password": "Varsh1",
-  //     "phone-number": "4507075000",
+  //     "phoneNumber": "4507075000",
   //     "address": "123 First st, Hayward, CA"
   // },
   {
     "name": "Var",
     "username": "Varsh",
     "role": "both",
-    "phone-number": "4507075000",
+    "phoneNumber": "4507075000",
     "password": bcryptjs.hashSync("Varsh1", rounds)
   }, // {
   //   "name": "Pari",
   //   "username": "Parimala",
   //   "password": "pari1",
-  //   "phone-number": "6507075000",
+  //   "phoneNumber": "6507075000",
   //   "address": "123 First st, Hayward, CA",
   //   "role": "donor"
   // },
@@ -31,13 +31,13 @@ exports.seed = function (knex) {
     "name": "Pari",
     "username": "Parimala",
     "role": "donor",
-    "phone-number": "6507075000",
+    "phoneNumber": "6507075000",
     "password": bcryptjs.hashSync("pari1", rounds)
   }, // {
   //   "name": "Harry",
   //   "username": "Harry Potter",
   //   "password": "Potter1",
-  //   "phone-number": "5007075000",
+  //   "phoneNumber": "5007075000",
   //   "address": "123 First st, Hayward, CA",
   //   "role": "donor"
   // },
@@ -45,13 +45,13 @@ exports.seed = function (knex) {
     "name": "Harry",
     "username": "Harry Potter",
     "role": "donor",
-    "phone-number": "5007075000",
+    "phoneNumber": "5007075000",
     "password": bcryptjs.hashSync("Potter1", rounds)
   }, // {
   //   "name": "Gandalf",
   //   "username": "Gandalf",
   //   "password": "dalf1",
-  //   "phone-number": "4087075000",
+  //   "phoneNumber": "4087075000",
   //   "address": "123 First st, Hayward, CA",
   //   "role": "volunteer"
   // },
@@ -59,13 +59,13 @@ exports.seed = function (knex) {
     "name": "Gandalf",
     "username": "Gandalf",
     "role": "volunteer",
-    "phone-number": "4087075000",
+    "phoneNumber": "4087075000",
     "password": bcryptjs.hashSync("dalf1", rounds)
   }, // {
   //   "name": "Spencer",
   //   "username": "spencer",
   //   "password": "Spencer1",
-  //   "phone-number": "5109009000",
+  //   "phoneNumber": "5109009000",
   //   "address": "123 First st, Hayward, CA",
   //   "role": "donor"
   // },
@@ -73,13 +73,13 @@ exports.seed = function (knex) {
     "name": "Spencer",
     "username": "spencer",
     "role": "donor",
-    "phone-number": "5109009000",
+    "phoneNumber": "5109009000",
     "password": bcryptjs.hashSync("Spencer1", rounds)
   }, // {
   //   "name": "Christina",
   //   "username": "christina",
   //   "password": "Christina1",
-  //   "phone-number": "5997075000",
+  //   "phoneNumber": "5997075000",
   //   "address": "123 First st, Hayward, CA",
   //   "role": "volunteer"
   // }
@@ -87,7 +87,7 @@ exports.seed = function (knex) {
     "name": "Christina",
     "username": "christina",
     "role": "volunteer",
-    "phone-number": "5997075000",
+    "phoneNumber": "5997075000",
     "password": bcryptjs.hashSync("Christina1", rounds)
   }]);
 }; // exports.seed = function(knex) {

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Foods = require('../data/connection.js');
 const Users = require("../users/user-model.js");
+const Donors = require("./donor-model.js");
 
 router.get("/", (req, res) => {
     Users.findDonors()
@@ -31,7 +32,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/foodItems', (req, res) => {
-    Users.findFooditems(req.params.id)
+    Donors.findFooditems(req.params.id)
     .then((foods) => {
         if(foods) {
             res.status(200).json(foods);
@@ -40,7 +41,8 @@ router.get('/:id/foodItems', (req, res) => {
         }  
     })
     .catch(err => {
-        res.status(500).json({err: 'Failed to get foods' });
+        console.log('Failed to get food:', err)
+        res.status(500).json({err: 'Failed to get foods' + err});
     });
 });
 
@@ -62,7 +64,7 @@ router.put('/:id', (req, res) => {
     Users
         .updateDonor(req.params.id, req.body)
         .then((updateDonor) => {
-            console.log(updateDonor)
+            // console.log(updateDonor)
             if(updateDonor) {
                 res.status(200).json(updateDonor);
             } else {

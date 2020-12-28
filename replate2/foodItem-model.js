@@ -14,11 +14,26 @@ module.exports = {
 
 
 function find() {
-    return db('foodItems').select('id', 'name', 'quantity').orderBy('id');
+    return db('foodItems').select('id', 'name', 'type', 'quantity').orderBy('id');
 };
 
 function findById(id) {
-    return db('foodItems').where({id}).first();
+    return db('foodItems').where({id}).first()
+    .then((count) => {
+        return db('volunteer_donor_foodItem as vdf').where({
+                food_id: id
+            })
+            .join('foodItems as f', 'f.id', 'vdf.food_id')
+            .join('users as u', 'u.id', 'vdf.vol_id')
+            .join('users as u2', 'u2.id', 'vdf.donor_id')
+            .select('vdf.food_id as id','f.name as name','f.type as type', 'f.quantity as quantity', 'vdf.id as vdf_id', 'vdf.vol_id', 'u.name as volunteer_name', 'vdf.pickupTime', 'vdf.donor_id', 'u2.name as donor_name',
+                 )
+            .first()
+            .then((vdf) => {
+                //console.log('vdf:', vdf);
+                return vdf;
+            })
+    })
 };
 
 // function findBy(filter) {
@@ -59,7 +74,6 @@ function findById(id) {
 function update(id, changes) {
     return db('foodItems').where({id}).update(changes)
     .then((rv) => {
-        console.log(rv);
         return findById(id);
     })
 };

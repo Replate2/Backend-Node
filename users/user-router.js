@@ -58,16 +58,17 @@ router.post('/:id', authenticate, checkUserIdMatch, (req, res) => {
 router.post('/:id/foodItems', (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
-            console.log(user);
+            // console.log(user);
             if (user) {
                 Users.addFood(req.body, req.params.id)
                     .then(food => {
-                        console.log(food);
+                        // console.log(food);
                         res.status(201).json(food);
                     })
                     .catch(err => {
+                        console.error('Failed to post foodItem, error:', err)
                         res.status(500).json({
-                            err: 'Failed to add foodItems'
+                            err: 'Failed to add foodItems. ' + err
                         });
                     });
             } else {
@@ -77,6 +78,7 @@ router.post('/:id/foodItems', (req, res) => {
             }
         })
         .catch(err => {
+            console.error('Failed to post foodItem, error:', err)
             res.status(500).json({
                 err: 'Failed to add foodItems. ' + err
             });
@@ -84,10 +86,10 @@ router.post('/:id/foodItems', (req, res) => {
 });
 
 router.put('/:id', authenticate, checkUserIdMatch, (req, res) => {
-    console.log(req.params.id, req.body);
+    // console.log(req.params.id, req.body);
     Users.update(req.params.id, req.body)
         .then((updatedUser) => {
-            console.log(updatedUser)
+            // console.log(updatedUser)
             if (updatedUser) {
                 res.status(200).json(updatedUser);
             } else {
@@ -104,7 +106,7 @@ router.put('/:id', authenticate, checkUserIdMatch, (req, res) => {
 });
 
 router.delete('/:id', authenticate, checkUserIdMatch, (req, res) => {
-    console.log('delete request', req.params.id);
+    // console.log('delete request', req.params.id);
     Users.remove(req.params.id, req.headers.authorization)
         .then(() => {
             res.status(201).json({

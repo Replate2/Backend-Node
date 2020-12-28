@@ -34,7 +34,7 @@ module.exports = () => describe("authTestSuite1", () => {
                         "name": "Var",
                         "username": "Varsh",
                         "password": "Varsh1",
-                        "phone-number": "4507075000",
+                        "phoneNumber": "4507075000",
                         "address": "123 First st, Hayward, CA"
                     })
                     .then(res => {
@@ -50,7 +50,7 @@ module.exports = () => describe("authTestSuite1", () => {
                         "name": "Gandalf",
                         "username": "Gandalf",
                         "password": "Gandalf1",
-                        "phone-number": "4107075000",
+                        "phoneNumber": "4107075000",
                         "address": "123 First st, Hayward, CA"
                     })
                     .then(res => {
@@ -66,7 +66,7 @@ module.exports = () => describe("authTestSuite1", () => {
                         "name": "Robin",
                         "username": "robinhood",
                         "password": "rob1",
-                        "phone-number": "4087079000",
+                        "phoneNumber": "4087079000",
                         "address": "123 First st, Fremont, CA"
                     })
                     .then(async (res) => {
