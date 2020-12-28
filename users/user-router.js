@@ -58,7 +58,7 @@ router.post('/:id', authenticate, checkUserIdMatch, (req, res) => {
 router.post('/:id/foodItems', (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
-            // console.log(user);
+            console.log('Add food, body:', req.body);
             if (user) {
                 Users.addFood(req.body, req.params.id)
                     .then(food => {
