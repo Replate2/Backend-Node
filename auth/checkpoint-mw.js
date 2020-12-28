@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const secretCode = require("../config/secretCode.js");
 
 const authenticate = (req, res, next) => {
+    console.log('authenticate: ', req.body)
     // add code here to verify users are logged in
     const token = req.headers.authorization;
 

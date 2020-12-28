@@ -9,6 +9,7 @@ const { isValid } = require("../users/user-service.js");
 const secretCode = require("../config/secretCode.js");
 
 router.post("/register", (req, res) => {
+    console.log('/register req.body:', req.body)
     const credentials = req.body;
 
     if (isValid(credentials)) {
