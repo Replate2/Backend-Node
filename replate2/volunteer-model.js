@@ -1,5 +1,6 @@
 const db = require("../data/connection.js");
-const Foods = require('../data/connection.js');
+// const Foods = require('../data/connection.js');
+const Foods = require('./foodItem-model.js');
 
 module.exports = {
     // find,
@@ -22,17 +23,33 @@ function findById(id) {
     return db('volunteers').where({id}).first()
 };
 
+// function findFooditems(id) {
+//     return db('volunteer_donor_foodItem').where({volunteer_id: id})
+//         .then((volunteerFoods) => {
+//             let promises = [];
+//             volunteerFoods.map(food => {
+//                promises.push(Foods.where({id: volunteerFood.foodItem.id}))
+//             })
+//             return Promise.all(promises);
+//         })
+// };
+
 function findFooditems(id) {
-    return db('volunteer_donor_foodItem').where({volunteer_id: id})
+    return db('volunteer_donor_foodItem')
+        .where({
+            vol_id: id
+        })
         .then((volunteerFoods) => {
+            // console.log('volunteerFoods: ', volunteerFoods)
             let promises = [];
-            volunteerFoods.map(volunteerFoods => {
-               promises.push(Foods.where({id: volunteerFoods.foodItem.id}))
+            volunteerFoods.map(food => {
+                promises.push(Foods.findById(
+                    food.food_id
+                ))
             })
             return Promise.all(promises);
         })
 };
-
 // function findFooditems() {
 //     return db('volunteer_donor_foodItem as vdf', 'vdf.donor_id', 'vdf.food_id')
 //         .join('foodItems as f', 'f.id')

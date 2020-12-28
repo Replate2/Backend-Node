@@ -47,7 +47,7 @@ function findById(id) {
   console.log('findById', id);
   return db('users').where({
     id: id
-  }).select('id', 'name', 'username', 'phone-number', 'role').first();
+  }).select('id', 'name', 'username', 'phoneNumber', 'role').first();
 }
 
 ;
@@ -100,7 +100,7 @@ function findFooditems(id) {
 //     .leftJoin( 'volunteers as v', 'u.id', 'v.user_id')
 //     .leftJoin('donors as d', 'u.id', 'd.user_id',)
 //     .where(filter)
-//     .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'v.id as volunteer', 'd.id as donor')
+//     .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phoneNumber', 'v.id as volunteer', 'd.id as donor')
 //     .orderBy('u.id')
 // };
 

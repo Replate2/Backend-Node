@@ -8,7 +8,7 @@ exports.up = function(knex) {
         tbl.string("name", 128).notNullable().unique();
         tbl.string("username", 128).notNullable().unique().index();
         tbl.string("password", 256).notNullable().unique();
-        tbl.string("phone-number", 256).notNullable().unique();
+        tbl.string("phoneNumber", 256).notNullable().unique();
         tbl.text('address', 128).unsigned();
         tbl.enu('role', ['donor', 'volunteer', 'both', 'none']).defaultTo('both');
     })

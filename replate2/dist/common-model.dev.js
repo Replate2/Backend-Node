@@ -27,7 +27,7 @@ function find() {
 //     return db('users as u')
 //     .join( 'roles as r', 'r.id', 'u.role')
 //     .where(filter)
-//     .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phone-number', 'r.name as role')
+//     .select('u.id', 'u.name', 'u.username', 'u.password', 'u.phoneNumber', 'r.name as role')
 //     .orderBy('u.id')
 // };
 

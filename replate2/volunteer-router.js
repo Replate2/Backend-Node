@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Foods = require('../data/connection.js');
 const Users = require("../users/user-model.js");
+const Volunteers = require("./volunteer-model.js");
 
 router.get("/", (req, res) => {
     Users.findVolunteers()
@@ -31,7 +32,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/foodItems', (req, res) => {
-    Users.findFooditems(req.params.id)
+    Volunteers.findFooditems(req.params.id)
     .then(foods => {
         if(foods) {
             res.status(200).json(foods);
@@ -40,7 +41,8 @@ router.get('/:id/foodItems', (req, res) => {
         }  
     })
     .catch(err => {
-        res.status(500).json({err: 'Failed to get foods' });
+        console.log('Failed to get foods:', err)
+        res.status(500).json({err: 'Failed to get foods' + err});
     });
 });
 
@@ -74,14 +76,16 @@ router.put('/:id', (req, res) => {
 });
 
 router.put('/:id/foodItems/:foodId', (req, res) => {
+    // console.log('Food is pickedup ?:', req)
     const pickupTime = req.body.pickupTime;
-    Users.updateTime(req.params.id, pickupTime)
+    Users.updateTime(req.params.id, pickupTime, req.params.foodId)
     .then((vdf) => {
-        console.log(vdf);
+        // console.log(vdf);
         res.status(200).json(vdf);
     })
     .catch(err => {
-        res.status(500).json({err: 'Failed to edit pickup time' });
+        console.log('Failed to edit pickup time:', err)
+        res.status(500).json({err: 'Failed to edit pickup time' + err });
     });     
 });
 

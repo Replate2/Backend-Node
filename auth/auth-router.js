@@ -37,6 +37,7 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
     const { username, password } = req.body;
+    // console.log('User login request:', 'username:', username, 'password:', password)
 
     if (isValid(req.body)) {
         Users.findBy({ username: username })
@@ -51,6 +52,7 @@ router.post("/login", (req, res) => {
                         token,
                     });
                 } else {
+                    // console.log('did not find the user:', user);
                     res.status(401).json({ message: "User is unauthorized" });
                 }
             })
