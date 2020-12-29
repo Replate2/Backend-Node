@@ -116,7 +116,7 @@ function addFood(food, user_id) {
                     food_id: foodId,
                     donor_id: user_id,
                     vol_id: 1 // Represents no-one
-                })
+                }, "id")
                 // .then(([vdfId]) => {
                 //     console.log('Food:', food)
                 //     return Foods.findById(foodId).select('id', 'name', 'type', 'quantity')
