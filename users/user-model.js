@@ -110,7 +110,7 @@ function add(user) {
 };
 
 function addFood(food, user_id) {
-    return db('foodItems').insert(food)
+    return db('foodItems').insert(food, "id")
         .then(([foodId]) => {
             return db('volunteer_donor_foodItem').insert({
                     food_id: foodId,
